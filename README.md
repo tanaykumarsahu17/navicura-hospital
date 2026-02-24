@@ -44,3 +44,49 @@ The application operates across three isolated Docker containers:
    ```bash
    git clone [https://github.com/tanaykumarsahu17/navicura-hospital.git](https://github.com/tanaykumarsahu17/navicura-hospital.git)
    cd navicura-hospital
+2. **Launch the infrastructure:**
+   Build and start the isolated network of containers in the background.
+
+   ```Bash
+   docker compose up -d --build
+3. **Access the Application:**
+
+   * **Frontend UI:** http://localhost:8080
+
+   * **API Documentation (Swagger):** http://localhost:8000/docs
+
+   * **Database Connection: localhost:** 5432 (User: postgres | Password: admin)
+
+Note: On the first launch, the database will be automatically structured but completely empty. You must register a user and inject dummy hospitals/doctors to populate the UI.
+
+### 🗺️ API Endpoints Overview
+Method    Endpoint       Description                            Auth Required
+POST      /auth/signup   Register a new patient account               ❌
+POST      /auth/login    Authenticate and receive JWT                 ❌
+GET       /users/me      Fetch active user profile via token          ✅
+GET       /hospitals/    Retrieve a list of all hospitals             ❌
+GET       /doctors/      Directory of medical professionals           ❌
+POST      /appointments/ Book a new consultation                      ✅
+
+### 🗄️ Database Schema
+* **Users Table:** Stores patient credentials (hashed) and contact info.
+
+* **Hospitals Table:** Stores facility details and spatial coordinates (Geometry).
+
+* **Doctors Table:** Foreign-keyed to Hospitals; stores specialty and bio.
+
+* **Appointments Table:** The join table mapping Users to Doctors with timestamps.
+
+### 📁 Project Structure
+Plaintext
+navicura-hospital/
+├── app/
+│   ├── api/          # API Routers (Auth, Doctors, Hospitals, etc.)
+│   ├── core/         # Database connection & security configurations
+│   ├── models/       # SQLAlchemy ORM database tables
+│   ├── schemas/      # Pydantic models for incoming/outgoing data validation
+│   └── main.py       # FastAPI application factory & CORS setup
+├── frontend/         # Vanilla JS, HTML, CSS (Served by Nginx container)
+├── docker-compose.yml# Multi-container orchestration instructions
+├── Dockerfile        # Python FastAPI container blueprint
+└── requirements.txt  # Python backend library dependencies
