@@ -59,16 +59,6 @@ The application operates across three isolated Docker containers:
 
 Note: On the first launch, the database will be automatically structured but completely empty. You must register a user and inject dummy hospitals/doctors to populate the UI.
 
-### 🗺️ API Endpoints Overview
-```table
-Method    Endpoint       Description                            Auth Required
-POST      /auth/signup   Register a new patient account               ❌
-POST      /auth/login    Authenticate and receive JWT                 ❌
-GET       /users/me      Fetch active user profile via token          ✅
-GET       /hospitals/    Retrieve a list of all hospitals             ❌
-GET       /doctors/      Directory of medical professionals           ❌
-POST      /appointments/ Book a new consultation                      ✅
-
 ### 🗄️ Database Schema
 * **Users Table:** Stores patient credentials (hashed) and contact info.
 
@@ -91,3 +81,13 @@ navicura-hospital/
 ├── docker-compose.yml# Multi-container orchestration instructions
 ├── Dockerfile        # Python FastAPI container blueprint
 └── requirements.txt  # Python backend library dependencies
+
+### 🗺️ API Endpoints Overview
+```table
+Method    Endpoint       Description                            Auth Required
+POST      /auth/signup   Register a new patient account               ❌
+POST      /auth/login    Authenticate and receive JWT                 ❌
+GET       /users/me      Fetch active user profile via token          ✅
+GET       /hospitals/    Retrieve a list of all hospitals             ❌
+GET       /doctors/      Directory of medical professionals           ❌
+POST      /appointments/ Book a new consultation                      ✅
