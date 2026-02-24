@@ -60,6 +60,7 @@ The application operates across three isolated Docker containers:
 Note: On the first launch, the database will be automatically structured but completely empty. You must register a user and inject dummy hospitals/doctors to populate the UI.
 
 ### 🗺️ API Endpoints Overview
+```table
 Method    Endpoint       Description                            Auth Required
 POST      /auth/signup   Register a new patient account               ❌
 POST      /auth/login    Authenticate and receive JWT                 ❌
