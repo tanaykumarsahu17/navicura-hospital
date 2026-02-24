@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviCura | Find a Doctor</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0B1E3B;
+            --accent-teal: #00897B;
+            --light-bg: #F0F8FF;
+            --text-dark: #334155;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f7f6;
+            color: var(--text-dark);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 10px 0;
+        }
+
+        /* SEARCH HEADER */
+        .doctor-search-header {
+            background: linear-gradient(135deg, var(--primary-blue), #1a365d);
+            padding: 60px 0 80px;
+            color: white;
+            text-align: center;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            max-width: 800px;
+            margin: -40px auto 40px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box select, .search-box input {
+            border: none;
+            box-shadow: none;
+            font-weight: 500;
+        }
+        .search-box select:focus, .search-box input:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        .search-divider { width: 1px; background: #dee2e6; margin: 0 10px; }
+
+        .btn-search {
+            background-color: var(--accent-teal);
+            color: white;
+            border-radius: 40px;
+            padding: 10px 30px;
+            font-weight: 600;
+            border: none;
+        }
+        .btn-search:hover { background-color: #00695c; color: white; }
+
+        /* DOCTOR CARDS */
+        .doctor-card {
+            background: white;
+            border-radius: 15px;
+            border: none;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            text-align: center;
+            transition: 0.3s;
+            height: 100%;
+        }
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .doctor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 15px;
+            border: 3px solid #E0F2F1;
+        }
+
+        .doctor-name { font-family: 'Montserrat', sans-serif; font-weight: 700; color: var(--primary-blue); margin-bottom: 5px;}
+        .specialty { color: var(--accent-teal); font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; }
+        
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .stats-row strong { color: var(--text-dark); display: block; font-size: 1rem;}
+
+        .btn-book-outline {
+            border: 2px solid var(--primary-blue);
+            color: var(--primary-blue);
+            font-weight: 600;
+            border-radius: 8px;
+            width: 100%;
+            padding: 8px;
+            background: transparent;
+            transition: 0.2s;
+        }
+        .btn-book-outline:hover { background: var(--primary-blue); color: white; }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="NaviCura Logo" style="height: 60px;"> 
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="find_doctor.html">Find Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html">Search Hospitals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    
+                    <li class="nav-item" id="nav-login">
+                        <a class="nav-link fw-bold" href="login.html">Login/SignUp</a>
+                    </li>
+                    <li class="nav-item" id="nav-logout" style="display: none;">
+                        <a class="nav-link text-danger fw-bold" href="#" onclick="logoutUser()">Logout</a>
+                    </li>
+                    <li class="nav-item" id="nav-dashboard" style="display: none;">
+                        <a class="nav-link text-primary fw-bold" href="dashboard.html">My Dashboard</a>
+                    </li>
+                    
+                    <li class="nav-item ms-3">
+                        <a href="dashboard.html" class="text-dark"><i class="fa-regular fa-user fs-5"></i></a>
+                    </li>
+                    
+                    <li class="nav-item ms-4">
+                        <a href="login.html" class="btn" id="nav-book-btn" style="background-color: #00897B; color: white; border: none; padding: 8px 25px; border-radius: 5px; font-weight: 600; text-decoration: none;">Book Now</a>
+                        <span id="nav-user-greeting" class="fw-bold text-dark" style="display: none; font-size: 1.1rem;">Hello, User</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="doctor-search-header">
+        <div class="container">
+            <h1 class="fw-bold" style="font-family: 'Montserrat', sans-serif;">Find Your Specialist</h1>
+            <p class="opacity-75">Connect with top-rated doctors and book your appointment instantly.</p>
+        </div>
+    </div>
+
+   <div class="container">
+        <div class="search-box d-flex flex-column flex-md-row align-items-center">
+            
+            <div class="d-flex align-items-center flex-grow-1 w-100">
+                <i class="fa-solid fa-stethoscope text-muted ms-3"></i>
+                <select class="form-select border-0 shadow-none bg-transparent fw-bold text-secondary" id="specialtySearch" style="cursor: pointer;">
+                    <option value="" selected>Any Specialty</option>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Dentist">Dentist</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <option value="Orthopedic">Orthopedic</option>
+                </select>
+            </div>
+            
+            <div class="search-divider d-none d-md-block" style="height: 30px;"></div>
+            
+            <div class="d-flex align-items-center flex-grow-1 w-100 mt-2 mt-md-0">
+                <i class="fa-solid fa-user-doctor text-muted ms-3"></i>
+                <input type="text" class="form-control border-0 shadow-none bg-transparent fw-bold" id="nameSearch" placeholder="Doctor's Name">
+            </div>
+            
+            <div class="mt-3 mt-md-0 w-100 text-end" style="max-width: 100px;">
+                <button class="btn-search w-100 m-0" onclick="searchDoctors()"><i class="fa-solid fa-search"></i></button>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row" id="doctor-results">
+            <div class="col-12 text-center py-5 text-muted">
+                <h4>Loading doctors from the database...</h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. FETCH DOCTORS FROM FASTAPI BACKEND ---
+        async function fetchDoctors() {
+            try {
+                const response = await fetch('http://localhost:8000/doctors/');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const realDoctors = await response.json();
+                window.allDoctors = realDoctors; // Save globally for search filtering
+                displayDoctors(realDoctors);
+                
+            } catch (error) {
+                console.error("Could not fetch doctors:", error);
+                document.getElementById('doctor-results').innerHTML = 
+                    `<div class="col-12 text-center py-5 text-danger">
+                        <h4>Error loading doctors. Is your backend running?</h4>
+                     </div>`;
+            }
+        }
+
+        // --- 2. DISPLAY DOCTORS ON SCREEN ---
+        function displayDoctors(doctorsList) {
+            const container = document.getElementById('doctor-results');
+            container.innerHTML = '';
+
+            if(!doctorsList || doctorsList.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center py-5 text-muted"><h4>No doctors found matching your criteria.</h4></div>`;
+                return;
+            }
+
+            doctorsList.forEach(doc => {
+                const specialty = doc.specialty || "General Medicine";
+                const hospital = doc.hospital_name || "NaviCura Network";
+                
+                // Using your exact HTML structure from the original code
+                const cardHTML = `
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        <div class="doctor-card">
+                            <div class="doctor-avatar">
+                                <i class="fa-solid fa-user-md"></i>
+                            </div>
+                            <h5 class="doctor-name">Dr. ${doc.first_name} ${doc.last_name}</h5>
+                            <p class="specialty">${specialty}</p>
+                            
+                            <div class="stats-row">
+                                <div><strong>Hospital</strong> ${hospital}</div>
+                            </div>
+
+                            <button class="btn-book-outline" onclick="bookAppointment(${doc.id}, '${doc.first_name} ${doc.last_name}')">
+                                Book Visit
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+
+        // --- 3. SEARCH DOCTORS (Now uses Real Data) ---
+        function searchDoctors() {
+            const spec = document.getElementById('specialtySearch').value.toLowerCase();
+            const name = document.getElementById('nameSearch').value.toLowerCase();
+
+            if (!window.allDoctors) return; // Prevent searching before data loads
+
+            const filtered = window.allDoctors.filter(doc => {
+                const fullName = `${doc.first_name} ${doc.last_name}`.toLowerCase();
+                const docSpecialty = (doc.specialty || "").toLowerCase();
+
+                const matchesSpec = spec === "" || docSpecialty.includes(spec);
+                const matchesName = name === "" || fullName.includes(name);
+                
+                return matchesSpec && matchesName;
+            });
+
+            displayDoctors(filtered);
+        }
+
+        // --- 4. BOOK APPOINTMENT PLACEHOLDER ---
+        function bookAppointment(doctorId, doctorName) {
+            alert(`Proceed to book with Dr. ${doctorName} (ID: ${doctorId})`);
+        }
+
+        // --- 5. ADVANCED SMART NAVBAR LOGIC ---
+        document.addEventListener("DOMContentLoaded", async () => {
+            // First, load the doctors from the database
+            fetchDoctors();
+
+            // Then, handle user login state
+            const token = localStorage.getItem('access_token');
+            const loginLink = document.getElementById('nav-login');
+            const logoutLink = document.getElementById('nav-logout');
+            const dashLink = document.getElementById('nav-dashboard');
+            const bookBtn = document.getElementById('nav-book-btn');
+            const greetingText = document.getElementById('nav-user-greeting');
+
+            if (token) {
+                if (loginLink) loginLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (dashLink) dashLink.style.display = 'block';
+                if (bookBtn) bookBtn.style.display = 'none';
+                if (greetingText) greetingText.style.display = 'block';
+
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (response.ok) {
+                        const user = await response.json();
+                        const name = user.full_name || user.email.split('@')[0];
+                        if (greetingText) greetingText.innerText = `Hello, ${name}`;
+                    } else if (response.status === 401) {
+                        logoutUser();
+                    }
+                } catch (err) {
+                    console.error("Failed to load user info:", err);
+                }
+
+            } else {
+                if (loginLink) loginLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (dashLink) dashLink.style.display = 'none';
+                if (bookBtn) bookBtn.style.display = 'inline-block';
+                if (greetingText) greetingText.style.display = 'none';
+            }
+        });
+
+        // --- 6. LOGOUT FUNCTION ---
+        function logoutUser() {
+            localStorage.removeItem('access_token'); 
+            window.location.href = 'index.html'; 
+        }
+    </script>
+</body>
+</html>

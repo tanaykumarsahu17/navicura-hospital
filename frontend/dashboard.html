@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviCura | Patient Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0B1E3B;
+            --accent-teal: #00897B;
+            --light-bg: #F0F8FF;
+            --text-dark: #334155;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f7f6; /* Very light grey for dashboard feel */
+            color: var(--text-dark);
+        }
+
+        /* --- NAVBAR (Consistent with Home) --- */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 10px 0;
+        }
+        .nav-link { font-weight: 600; color: var(--primary-blue); }
+
+        /* --- STATS CARDS --- */
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        .bg-teal-light { background-color: #E0F2F1; color: var(--accent-teal); }
+        .bg-blue-light { background-color: #E3F2FD; color: #1976D2; }
+        .bg-purple-light { background-color: #F3E5F5; color: #7B1FA2; }
+
+        /* --- APPOINTMENT LIST --- */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+
+        .appointment-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 5px solid var(--accent-teal); /* Status Indicator */
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .doctor-info h6 { font-weight: 700; margin-bottom: 5px; font-family: 'Montserrat', sans-serif; }
+        .date-badge {
+            background: #f8f9fa;
+            padding: 5px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #555;
+            border: 1px solid #eee;
+        }
+
+        .btn-pay {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .btn-pay:hover { background-color: #061224; color: white; }
+
+        /* Sidebar/Profile Area */
+        .profile-card {
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: white;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+    </style>
+</head>
+<body>
+
+   <nav class="navbar navbar-expand-lg sticky-top" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="NaviCura Logo" style="height: 60px;"> 
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="find_doctor.html">Find Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html">Search Hospitals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    
+                    <li class="nav-item" id="nav-login">
+                        <a class="nav-link fw-bold" href="login.html">Login/SignUp</a>
+                    </li>
+                    <li class="nav-item" id="nav-logout" style="display: none;">
+                        <a class="nav-link text-danger fw-bold" href="#" onclick="logoutUser()">Logout</a>
+                    </li>
+                    <li class="nav-item" id="nav-dashboard" style="display: none;">
+                        <a class="nav-link text-primary fw-bold" href="dashboard.html">My Dashboard</a>
+                    </li>
+                    
+                    <li class="nav-item ms-3">
+                        <a href="dashboard.html" class="text-dark"><i class="fa-regular fa-user fs-5"></i></a>
+                    </li>
+                    
+                    <li class="nav-item ms-4">
+                        <a href="login.html" class="btn" id="nav-book-btn" style="background-color: #00897B; color: white; border: none; padding: 8px 25px; border-radius: 5px; font-weight: 600; text-decoration: none;">Book Now</a>
+                        <span id="nav-user-greeting" class="fw-bold text-dark" style="display: none; font-size: 1.1rem;">Hello, User</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row">
+            
+            <div class="col-lg-8">
+                
+                <div class="row mb-5">
+                    <div class="col-md-4 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-teal-light"><i class="fa-regular fa-calendar-check"></i></div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">02</h3>
+                                <small class="text-muted">Upcoming</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-blue-light"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">14</h3>
+                                <small class="text-muted">Completed</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-purple-light"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                            <div>
+                                <h3 class="mb-0 fw-bold">Pending</h3>
+                                <small class="text-muted">Payments</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="section-title">Upcoming Appointments</h4>
+                
+                <div class="appointment-card">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="doctor-info">
+                            <h6>Dr. Anjali Mehta</h6>
+                            <p class="mb-0 small text-muted">Cardiologist • Apollo Hospital</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
+                        <div class="date-badge"><i class="fa-regular fa-clock me-1"></i> Today, 4:00 PM</div>
+                        <a href="#" class="btn-pay">Pay Now</a>
+                    </div>
+                </div>
+
+                <div class="appointment-card" style="border-left-color: #ff9800;"> <div class="d-flex align-items-center gap-3">
+                        <div class="doctor-info">
+                            <h6>Dr. Rajesh Kumar</h6>
+                            <p class="mb-0 small text-muted">Dentist • City Clinic</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 mt-3 mt-md-0">
+                        <div class="date-badge"><i class="fa-regular fa-calendar me-1"></i> Nov 12, 10:00 AM</div>
+                        <span class="badge bg-success">Paid</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+                <div class="profile-card mb-4">
+                    <div class="profile-img"><i class="fa-regular fa-user"></i></div>
+                    <h5 class="fw-bold mb-1 text-white" id="profile-name">Loading...</h5>
+                    <p class="mb-4" style="color: #94a3b8;" id="profile-email">Loading...</p>
+                    <a href="#" class="btn btn-outline-light btn-sm w-100 rounded-pill mt-2">Edit Profile</a>
+                </div>
+
+               <div class="card border-0 shadow-sm p-4 rounded-4 mt-4">
+                    <h6 class="fw-bold mb-4">Quick Actions</h6>
+                    
+                    <a href="find_doctor.html" class="d-flex align-items-center p-3 text-decoration-none text-dark bg-light rounded-3 mb-3" style="transition: 0.2s; border: 1px solid transparent;" onmouseover="this.style.borderColor='#dee2e6'" onmouseout="this.style.borderColor='transparent'">
+                        <i class="fa-solid fa-user-doctor me-3" style="color: #0d6efd; font-size: 1.2rem;"></i>
+                        <span style="font-weight: 500;">Find a Doctor</span>
+                    </a>
+
+                    <a href="search.html" class="d-flex align-items-center p-3 text-decoration-none text-dark bg-light rounded-3 mb-3" style="transition: 0.2s; border: 1px solid transparent;" onmouseover="this.style.borderColor='#dee2e6'" onmouseout="this.style.borderColor='transparent'">
+                        <i class="fa-solid fa-hospital-user me-3" style="color: #dc3545; font-size: 1.2rem;"></i>
+                        <span style="font-weight: 500;">Search Hospitals</span>
+                    </a>
+
+                    <a href="#" class="d-flex align-items-center p-3 text-decoration-none text-dark bg-light rounded-3 mb-3" style="transition: 0.2s; border: 1px solid transparent;" onmouseover="this.style.borderColor='#dee2e6'" onmouseout="this.style.borderColor='transparent'" onclick="alert('Report downloading will be connected to the database soon!')">
+                        <i class="fa-solid fa-file-medical me-3" style="color: #198754; font-size: 1.2rem;"></i>
+                        <span style="font-weight: 500;">Download Reports</span>
+                    </a>
+
+                    <a href="#" class="d-flex align-items-center p-3 text-decoration-none text-dark bg-light rounded-3" style="transition: 0.2s; border: 1px solid transparent;" onmouseover="this.style.borderColor='#dee2e6'" onmouseout="this.style.borderColor='transparent'" onclick="alert('Support chat opening...')">
+                        <i class="fa-solid fa-headset me-3" style="color: #ffc107; font-size: 1.2rem;"></i>
+                        <span style="font-weight: 500;">Help & Support</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        // --- ADVANCED SMART NAVBAR LOGIC ---
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('access_token');
+            const loginLink = document.getElementById('nav-login');
+            const logoutLink = document.getElementById('nav-logout');
+            const dashLink = document.getElementById('nav-dashboard');
+            const bookBtn = document.getElementById('nav-book-btn');
+            const greetingText = document.getElementById('nav-user-greeting');
+
+            if (token) {
+                // User IS logged in: Toggle visibility
+                if (loginLink) loginLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (dashLink) dashLink.style.display = 'block';
+                if (bookBtn) bookBtn.style.display = 'none';
+                if (greetingText) greetingText.style.display = 'block';
+
+                // Fetch real user name from backend
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (response.ok) {
+                        const user = await response.json();
+                        // Use full name if it exists, otherwise use email prefix
+                        const name = user.full_name || user.email.split('@')[0];
+                        if (greetingText) greetingText.innerText = `Hello, ${name}`;
+                        
+                        // NEW: Update the Dashboard Profile Card!
+                        const profileName = document.getElementById('profile-name');
+                        const profileEmail = document.getElementById('profile-email');
+                        if (profileName) profileName.innerText = name;
+                        if (profileEmail) profileEmail.innerText = user.email;
+                    } else if (response.status === 401) {
+                        // Token expired, log them out automatically
+                        logoutUser();
+                    }
+                } catch (err) {
+                    console.error("Failed to load user info:", err);
+                }
+
+            } else {
+                // User is NOT logged in: Show defaults
+                if (loginLink) loginLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (dashLink) dashLink.style.display = 'none';
+                if (bookBtn) bookBtn.style.display = 'inline-block';
+                if (greetingText) greetingText.style.display = 'none';
+            }
+        });
+
+        // Logout Function
+        function logoutUser() {
+            localStorage.removeItem('access_token'); // Destroy the key
+            window.location.href = 'index.html'; // Send them back to home page
+        }
+    </script>
+
+</body>
+</html>

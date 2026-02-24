@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviCura | Search Hospitals</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0B1E3B;
+            --accent-teal: #00897B;
+            --text-dark: #334155;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 10px 0;
+        }
+        
+        /* SEARCH BAR SECTION */
+        .search-section {
+            background-color: var(--primary-blue);
+            padding: 40px 0;
+            color: white;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 30px;
+        }
+
+        .filter-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* RESULT CARDS */
+        .hospital-card {
+            background: white;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            height: 100%;
+        }
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .btn-book {
+            background-color: var(--accent-teal);
+            color: white;
+            font-weight: 600;
+            border: none;
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .btn-book:hover { background-color: #00695c; color: white; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg sticky-top" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="NaviCura Logo" style="height: 60px;"> 
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="find_doctor.html">Find Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html">Search Hospitals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    
+                    <li class="nav-item" id="nav-login">
+                        <a class="nav-link fw-bold" href="login.html">Login/SignUp</a>
+                    </li>
+                    <li class="nav-item" id="nav-logout" style="display: none;">
+                        <a class="nav-link text-danger fw-bold" href="#" onclick="logoutUser()">Logout</a>
+                    </li>
+                    <li class="nav-item" id="nav-dashboard" style="display: none;">
+                        <a class="nav-link text-primary fw-bold" href="dashboard.html">My Dashboard</a>
+                    </li>
+                    
+                    <li class="nav-item ms-3">
+                        <a href="dashboard.html" class="text-dark"><i class="fa-regular fa-user fs-5"></i></a>
+                    </li>
+                    
+                    <li class="nav-item ms-4">
+                        <a href="login.html" class="btn" id="nav-book-btn" style="background-color: #00897B; color: white; border: none; padding: 8px 25px; border-radius: 5px; font-weight: 600; text-decoration: none;">Book Now</a>
+                        <span id="nav-user-greeting" class="fw-bold text-dark" style="display: none; font-size: 1.1rem;">Hello, User</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-section">
+        <div class="container">
+            <h2 class="fw-bold mb-4" style="font-family: 'Montserrat', sans-serif;">Find the Right Care</h2>
+            
+            <div class="filter-card text-dark">
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label fw-bold small">City or Location</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa-solid fa-location-dot text-danger"></i></span>
+                            <input type="text" id="citySearch" class="form-control border-start-0" placeholder="e.g. Mumbai, Delhi">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label fw-bold small">Hospital Name</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa-solid fa-hospital text-primary"></i></span>
+                            <input type="text" id="nameSearch" class="form-control border-start-0" placeholder="Search by name...">
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button class="btn btn-primary w-100 fw-bold p-2" onclick="searchHospitals()" style="background-color: var(--primary-blue);">
+                            <i class="fa-solid fa-magnifying-glass me-2"></i>Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container pb-5">
+        <div class="row" id="results-container">
+            <div class="text-center py-5 text-muted">
+                <i class="fa-solid fa-stethoscope fa-3x mb-3 opacity-50"></i>
+                <h5>Enter a city or name above to start searching.</h5>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch hospitals from backend
+        async function searchHospitals() {
+            const container = document.getElementById('results-container');
+            const city = document.getElementById('citySearch').value.toLowerCase();
+            const name = document.getElementById('nameSearch').value.toLowerCase();
+
+            // Show loading spinner
+            container.innerHTML = `
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-muted">Searching database...</p>
+                </div>
+            `;
+
+            try {
+                // Fetch ALL hospitals (assuming your backend has a /hospitals/ endpoint)
+                const response = await fetch('http://127.0.0.1:8000/hospitals/');
+                if (!response.ok) throw new Error("Failed to fetch data");
+                
+                let hospitals = await response.json();
+
+                // Frontend Filtering
+                if (city) {
+                    hospitals = hospitals.filter(h => h.city && h.city.toLowerCase().includes(city));
+                }
+                if (name) {
+                    hospitals = hospitals.filter(h => h.name && h.name.toLowerCase().includes(name));
+                }
+
+                displayResults(hospitals);
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="alert alert-danger">Error connecting to the database. Is the server running?</div>`;
+            }
+        }
+
+        // Display the cards
+        function displayResults(hospitals) {
+            const container = document.getElementById('results-container');
+            container.innerHTML = ''; // Clear old results
+
+            if (hospitals.length === 0) {
+                container.innerHTML = `<div class="alert alert-warning text-center w-100">No hospitals found matching your criteria.</div>`;
+                return;
+            }
+
+            hospitals.forEach(hospital => {
+                const card = `
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card hospital-card p-3">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="card-title mb-1">${hospital.name}</h5>
+                                    <p class="text-muted small mb-0"><i class="fa-solid fa-map-pin text-danger me-1"></i> ${hospital.city || 'Unknown City'}</p>
+                                </div>
+                                <span class="badge bg-success"><i class="fa-solid fa-star text-warning"></i> ${hospital.rating || 'New'}</span>
+                            </div>
+                            <p class="small text-muted mb-4"><i class="fa-solid fa-road me-1"></i> ${hospital.address || 'Address not provided'}</p>
+                            
+                            <button class="btn-book mt-auto" onclick="alert('Booking from Search page coming next!')">
+                                Book Appointment
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // --- ADVANCED SMART NAVBAR LOGIC ---
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('access_token');
+            const loginLink = document.getElementById('nav-login');
+            const logoutLink = document.getElementById('nav-logout');
+            const dashLink = document.getElementById('nav-dashboard');
+            const bookBtn = document.getElementById('nav-book-btn');
+            const greetingText = document.getElementById('nav-user-greeting');
+
+            if (token) {
+                // User IS logged in: Toggle visibility
+                if (loginLink) loginLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (dashLink) dashLink.style.display = 'block';
+                if (bookBtn) bookBtn.style.display = 'none';
+                if (greetingText) greetingText.style.display = 'block';
+
+                // Fetch real user name from backend
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (response.ok) {
+                        const user = await response.json();
+                        // Use full name if it exists, otherwise use email prefix
+                        const name = user.full_name || user.email.split('@')[0];
+                        if (greetingText) greetingText.innerText = `Hello, ${name}`;
+                    } else if (response.status === 401) {
+                        // Token expired, log them out automatically
+                        logoutUser();
+                    }
+                } catch (err) {
+                    console.error("Failed to load user info:", err);
+                }
+
+            } else {
+                // User is NOT logged in: Show defaults
+                if (loginLink) loginLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (dashLink) dashLink.style.display = 'none';
+                if (bookBtn) bookBtn.style.display = 'inline-block';
+                if (greetingText) greetingText.style.display = 'none';
+            }
+        });
+
+        // Logout Function
+        function logoutUser() {
+            localStorage.removeItem('access_token'); // Destroy the key
+            window.location.href = 'index.html'; // Send them back to home page
+        }
+    </script>
+</body>
+</html>

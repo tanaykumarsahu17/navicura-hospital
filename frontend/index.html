@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviCura | Healthcare Made Simple</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- CUSTOM COLOR PALETTE --- */
+        :root {
+            --primary-blue: #0B1E3B;  /* Deep Void Blue */
+            --accent-teal: #00897B;   /* The "NaviCura" Teal */
+            --light-bg: #F0F8FF;      /* Alice Blue */
+            --text-dark: #334155;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4, h5, .navbar-brand, .btn {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            padding: 15px 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        /* SEARCH BAR */
+        .search-box {
+            background: white;
+            padding: 5px;
+            border-radius: 8px;
+            display: flex;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid var(--accent-teal);
+            max-width: 500px;
+        }
+        .search-input {
+            border: none;
+            padding: 15px;
+            width: 100%;
+            outline: none;
+            font-size: 1rem;
+            color: #555;
+        }
+        .btn-search {
+            background-color: var(--accent-teal);
+            background-color: #00897B !important;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-weight: 700;
+            border: none;
+        }
+
+        .btn-book-nav {
+            background-color: #00897B !important; /* Teal */
+            color: white !important;
+            font-weight: 600;
+            padding: 8px 25px;
+            border-radius: 5px;
+            border: none;
+        }
+        .btn-book-nav:hover {
+            background-color: #00796B;
+            color: white;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            background: linear-gradient(90deg, #E0F7FA 0%, #FFFFFF 100%);
+            padding: 80px 0;
+            min-height: 90vh; /* Full screen height feel */
+            display: flex;
+            align-items: center;
+        }
+        .hero-title {
+            font-weight: 800;
+            color: #006064; /* Darker Teal/Blue mix */
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #546E7A;
+            margin-bottom: 30px;
+            max-width: 90%;
+        }
+
+        /* HERO IMAGE */
+        .hero-img-container img {
+            border-radius: 20px 0 0 20px; /* Rounded left corners */
+            box-shadow: -20px 20px 0px rgba(0, 137, 123, 0.1); /* Abstract decoration */
+            width: 100%;
+            max-width: 550px;
+        }
+
+        /* --- FEATURES SECTION --- */
+        .features-section {
+            padding: 80px 0;
+            background: white;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+        .feature-title {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        /* --- SERVICES SECTION --- */
+        .services-section {
+            padding: 60px 0 100px 0;
+            background: white;
+        }
+        .service-card {
+            border: 1px solid #eee;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: 0.3s;
+            background: white;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: var(--accent-teal);
+        }
+        .service-icon-circle {
+            width: 80px;
+            height: 80px;
+            background: #E0F2F1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px auto;
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 40px 0 20px 0;
+        }
+        footer a { color: #cfd8dc; text-decoration: none; }
+        footer a:hover { color: white; }
+        
+        .nav-link {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+   <nav class="navbar navbar-expand-lg fixed-top" style="background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo.png" alt="NaviCura Logo" style="height: 60px;"> 
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="find_doctor.html">Find Doctors</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html">Search Hospitals</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+                    
+                    <li class="nav-item" id="nav-login">
+                        <a class="nav-link fw-bold" href="login.html">Login/SignUp</a>
+                    </li>
+                    <li class="nav-item" id="nav-logout" style="display: none;">
+                        <a class="nav-link text-danger fw-bold" href="#" onclick="logoutUser()">Logout</a>
+                    </li>
+                    <li class="nav-item" id="nav-dashboard" style="display: none;">
+                        <a class="nav-link text-primary fw-bold" href="dashboard.html">My Dashboard</a>
+                    </li>
+                    
+                    <li class="nav-item ms-3">
+                        <a href="dashboard.html" class="text-dark"><i class="fa-regular fa-user fs-5"></i></a>
+                    </li>
+                    
+                    <li class="nav-item ms-4">
+                        <a href="login.html" class="btn" id="nav-book-btn" style="background-color: #00897B; color: white; border: none; padding: 8px 25px; border-radius: 5px; font-weight: 600; text-decoration: none;">Book Now</a>
+                        <span id="nav-user-greeting" class="fw-bold text-dark" style="display: none; font-size: 1.1rem;">Hello, User</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <header class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <h1 class="hero-title">Healthcare Made <br> Simple.</h1>
+                    <p class="hero-sub">
+                        Find the best hospitals near you, book appointments instantly, 
+                        and manage your health records securely.
+                    </p>
+                    
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Search for doctors, clinics, or services...">
+                        <button class="btn btn-search" onclick="findHospitals()">Find Now</button>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 text-end hero-img-container" data-aos="fade-left">
+                    <img src="https://img.freepik.com/free-photo/doctor-shaking-hands-with-older-patient_23-2147896166.jpg?w=900" 
+                         alt="Doctor and Patient" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="features-section">
+        <div class="container">
+            <h3 class="mb-5 fw-bold">Why Choose Us</h3>
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fa-solid fa-location-dot feature-icon"></i>
+                    <h5 class="feature-title">Smart Location Search</h5>
+                    <p class="text-muted">Find verified hospitals within 5km of your current location instantly.</p>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fa-regular fa-clock feature-icon"></i>
+                    <h5 class="feature-title">Instant Confirmation</h5>
+                    <p class="text-muted">Book slots in real-time. No waiting, no phone calls required.</p>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fa-solid fa-shield-halved feature-icon"></i>
+                    <h5 class="feature-title">Secure Health Records</h5>
+                    <p class="text-muted">Your data is encrypted and safe. Access your history anytime.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <div class="container">
+            <h3 class="mb-5 fw-bold">Popular Services</h3>
+            <div class="row">
+                <div class="col-md-3 mb-4" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="service-icon-circle">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h6 class="fw-bold">General Physician</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-icon-circle">
+                            <i class="fa-solid fa-tooth"></i>
+                        </div>
+                        <h6 class="fw-bold">Dental Care</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="service-icon-circle">
+                            <i class="fa-solid fa-baby"></i>
+                        </div>
+                        <h6 class="fw-bold">Pediatrics</h6>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="service-icon-circle">
+                            <i class="fa-solid fa-file-medical"></i>
+                        </div>
+                        <h6 class="fw-bold">Diagnostics</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="fw-bold mb-3">NaviCura</h5>
+                    <p class="small opacity-75">Your trusted companion for healthcare navigation <br>and appointments.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="me-3 small">Privacy Policy</a>
+                    <a href="#" class="me-3 small">About Us</a>
+                    <a href="#" class="small">Contact</a>
+                    <p class="mt-3 small opacity-50">© 2026 NaviCura. Built with FastAPI.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+        
+        // --- 1. ADVANCED SMART NAVBAR LOGIC ---
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('access_token');
+            const loginLink = document.getElementById('nav-login');
+            const logoutLink = document.getElementById('nav-logout');
+            const dashLink = document.getElementById('nav-dashboard');
+            const bookBtn = document.getElementById('nav-book-btn');
+            const greetingText = document.getElementById('nav-user-greeting');
+
+            if (token) {
+                // User IS logged in: Toggle visibility
+                if (loginLink) loginLink.style.display = 'none';
+                if (logoutLink) logoutLink.style.display = 'block';
+                if (dashLink) dashLink.style.display = 'block';
+                if (bookBtn) bookBtn.style.display = 'none';
+                if (greetingText) greetingText.style.display = 'block';
+
+                // Fetch real user name from backend
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/users/me', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    
+                    if (response.ok) {
+                        const user = await response.json();
+                        const name = user.full_name || user.email.split('@')[0];
+                        if (greetingText) greetingText.innerText = `Hello, ${name}`;
+                    } else if (response.status === 401) {
+                        logoutUser();
+                    }
+                } catch (err) {
+                    console.error("Failed to load user info:", err);
+                }
+
+            } else {
+                // User is NOT logged in: Show defaults
+                if (loginLink) loginLink.style.display = 'block';
+                if (logoutLink) logoutLink.style.display = 'none';
+                if (dashLink) dashLink.style.display = 'none';
+                if (bookBtn) bookBtn.style.display = 'inline-block';
+                if (greetingText) greetingText.style.display = 'none';
+            }
+        });
+
+        // --- 2. LOGOUT FUNCTION ---
+        function logoutUser() {
+            localStorage.removeItem('access_token'); // Destroy the key
+            window.location.href = 'index.html'; // Send them back to home page
+        }
+
+        // --- 3. THE POSTGIS MAP FUNCTION ---
+        async function findHospitals() {
+            // Check if browser supports GPS
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser");
+                return;
+            }
+
+            const btn = document.querySelector('.btn-search');
+            const originalText = btn.innerText;
+            btn.innerText = "Locating...";
+
+            // Ask user for location
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                // Hardcoded Bangalore coordinates for testing your DB
+                const lat = 12.9716; 
+                const long = 77.5946; 
+                
+                try {
+                    const response = await fetch(`http://127.0.0.1:8000/hospitals/near-me?lat=${lat}&long=${long}&radius_km=5`);
+                    
+                    if (response.ok) {
+                        const hospitals = await response.json();
+                        
+                        if (hospitals.length > 0) {
+                            const names = hospitals.map(h => h.name).join("\n- ");
+                            alert(`Success! Found ${hospitals.length} hospitals near you:\n- ${names}`);
+                            console.log("Full Data:", hospitals);
+                        } else {
+                            alert("No hospitals found within 5km of your location.");
+                        }
+                    } else {
+                        alert("Error connecting to the database.");
+                    }
+                } catch (err) {
+                    console.error("API Error:", err);
+                    alert("Failed to connect to the server.");
+                } finally {
+                    btn.innerText = originalText; 
+                }
+                
+            }, (error) => {
+                alert("Please allow location access in your browser to use this feature.");
+                btn.innerText = originalText;
+            });
+        }
+    </script>
+</body>
+</html>

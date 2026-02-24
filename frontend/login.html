@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NaviCura | Login</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #0B1E3B;
+            --accent-teal: #00897B;
+            --light-bg: #F0F8FF;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            /* --- CHANGE YOUR BACKGROUND HERE --- */
+            background-color: #E0F7FA; 
+            /* To use an image instead, uncomment the lines below: */
+            /* background-image: url('your-background.jpg'); */
+            /* background-size: cover; */
+        }
+
+        /* The Centered Card */
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Custom Toggle Switch (Login / Signup) */
+        .toggle-container {
+            background: #f1f3f5;
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .toggle-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #adb5bd;
+            transition: 0.3s;
+            z-index: 2;
+        }
+        .toggle-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 10px rgba(11, 30, 59, 0.2);
+        }
+
+        /* Form Inputs */
+        .input-group-text {
+            background: #f8f9fa;
+            border-right: none;
+            color: var(--accent-teal);
+        }
+        .form-control {
+            background: #f8f9fa;
+            border-left: none;
+            padding: 12px;
+            font-size: 0.95rem;
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #ced4da;
+            background: white;
+        }
+        .form-control:focus + .input-group-text, 
+        .form-control:focus ~ .input-group-text {
+            border-color: #ced4da; 
+        }
+
+        /* Main Button */
+        .btn-action {
+            background: var(--accent-teal);
+            color: white;
+            font-weight: 700;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            border: none;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-action:hover {
+            background: #00796B;
+            color: white;
+        }
+
+        .link-text {
+            color: var(--accent-teal);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .link-text:hover { text-decoration: underline; }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <div class="mb-4">
+            <img src="logo.png" alt="NaviCura" style="height: 80px; width: auto;">
+        </div>
+
+        <div class="toggle-container">
+            <button class="toggle-btn active" id="btn-login" onclick="switchMode('login')">Login</button>
+            <button class="toggle-btn" id="btn-signup" onclick="switchMode('signup')">Sign Up</button>
+        </div>
+
+        <form id="login-form">
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="Email Address" required>
+            </div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="text-end mb-3">
+                <a href="#" class="small text-muted text-decoration-none">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn-action">Login</button>
+        </form>
+
+        <form id="signup-form" style="display: none;">
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa-regular fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="Full Name" required>
+            </div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="Email Address" required>
+            </div>
+            <div class="mb-3 input-group">
+                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                <input type="password" class="form-control" placeholder="Create Password" required>
+            </div>
+            <button type="submit" class="btn-action">Create Account</button>
+        </form>
+
+    </div>
+
+    <script>
+        function switchMode(mode) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const btnLogin = document.getElementById('btn-login');
+            const btnSignup = document.getElementById('btn-signup');
+
+            if (mode === 'login') {
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                btnLogin.classList.add('active');
+                btnSignup.classList.remove('active');
+            } else {
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                btnLogin.classList.remove('active');
+                btnSignup.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+<script>
+    // 1. Existing Switch Mode Function
+    function switchMode(mode) {
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const btnLogin = document.getElementById('btn-login');
+        const btnSignup = document.getElementById('btn-signup');
+
+        if (mode === 'login') {
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            btnLogin.classList.add('active');
+            btnSignup.classList.remove('active');
+        } else {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            btnLogin.classList.remove('active');
+            btnSignup.classList.add('active');
+        }
+    }
+
+    // 2. NEW: Handle Login Logic
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Stop page from reloading
+
+        // Get values from the inputs
+        // Note: We assume the first input is email, second is password based on your HTML order
+        const email = this.querySelector('input[type="email"]').value;
+        const password = this.querySelector('input[type="password"]').value;
+        const btn = this.querySelector('button');
+
+        // Show loading state
+        const originalText = btn.innerText;
+        btn.innerText = "Verifying...";
+        btn.disabled = true;
+
+        try {
+            // Send data to FastAPI Backend
+            // FastAPI expects "form data" for the OAuth2 login
+            const formData = new URLSearchParams();
+            formData.append('username', email); // FastAPI calls email 'username'
+            formData.append('password', password);
+
+            const response = await fetch('http://127.0.0.1:8000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error("Invalid Credentials");
+            }
+
+            const data = await response.json();
+            
+            // SUCCESS! Save the token
+            console.log("Login Successful:", data);
+            localStorage.setItem('access_token', data.access_token);
+            
+            // Redirect to Dashboard
+            window.location.href = 'dashboard.html';
+
+        } catch (error) {
+            alert("Login Failed: Incorrect Email or Password");
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    });
+
+    // ... (Your existing Login Logic is above this) ...
+
+    // 3. UPDATED: Handle Sign-Up Logic (Fixes the Login Bug)
+    document.getElementById('signup-form').addEventListener('submit', async function(e) {
+        e.preventDefault(); 
+
+        const nameInput = this.querySelector('input[type="text"]');
+        const emailInput = this.querySelector('input[type="email"]');
+        const passInput = this.querySelector('input[type="password"]');
+        const btn = this.querySelector('button');
+
+        const originalText = btn.innerText;
+        btn.innerText = "Creating Account...";
+        btn.disabled = true;
+
+        try {
+            // FIX: We send the email as the 'username' too, just in case 
+            // the backend requires it or searches by that column.
+            const userData = {
+                email: emailInput.value,
+                username: emailInput.value, // <--- THE CRITICAL FIX
+                password: passInput.value,
+                full_name: nameInput.value
+            };
+
+            const response = await fetch('http://127.0.0.1:8000/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Signup Error Details:", errorData); // Log exact error to console
+                throw new Error(errorData.detail || "Registration failed");
+            }
+
+            // SUCCESS
+            alert("Account created successfully! Please login.");
+            switchMode('login');
+            
+            // Auto-fill the login for convenience
+            document.querySelector('#login-form input[type="email"]').value = emailInput.value;
+
+        } catch (error) {
+            console.error(error);
+            alert("Error: " + error.message);
+        } finally {
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }
+    });
+</script>
+</html>
