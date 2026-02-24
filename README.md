@@ -69,7 +69,7 @@ Note: On the first launch, the database will be automatically structured but com
 * **Appointments Table:** The join table mapping Users to Doctors with timestamps.
 
 ### 📁 Project Structure
-Plaintext
+```bash
 navicura-hospital/
 ├── app/
 │   ├── api/          # API Routers (Auth, Doctors, Hospitals, etc.)
@@ -81,7 +81,7 @@ navicura-hospital/
 ├── docker-compose.yml# Multi-container orchestration instructions
 ├── Dockerfile        # Python FastAPI container blueprint
 └── requirements.txt  # Python backend library dependencies
-
+```
 ### 🗺️ API Endpoints Overview
 ```table
 Method    Endpoint       Description                            Auth Required
